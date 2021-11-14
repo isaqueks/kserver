@@ -1,12 +1,15 @@
 #ifndef HTTP_HEADER
 #define HTTP_HEADER
 
+#define MAX_HEADER_NAME_SIZE 128
+#define MAX_HEADER_VALUE_SIZE (2048 - MAX_HEADER_NAME_SIZE)
+
 typedef struct {
 
-    char name[128];
+    char name[MAX_HEADER_NAME_SIZE];
     // I really think some KBs of memory loss
     // is better than a lot of memory leaks/fragmentation/slowness
-    char content[2048];
+    char content[MAX_HEADER_VALUE_SIZE];
 
 } http_header;
 
