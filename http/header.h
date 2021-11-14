@@ -5,7 +5,7 @@ typedef struct {
 
     char name[128];
     // I really think some KBs of memory loss
-    // is better than a lot of memory leaks.
+    // is better than a lot of memory leaks/fragmentation/slowness
     char content[2048];
 
 } http_header;
