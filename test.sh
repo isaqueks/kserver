@@ -2,5 +2,5 @@
 
 mkdir tmp
 
-gcc tests/$1.c net/tcp_socket.c -o tmp/$1.out
+gcc tests/$1.c $(ls source/*/*.c) -o tmp/$1.out
 tmp/$1.out && echo "Test passed."

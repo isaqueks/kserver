@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <stdlib.h>
-#include "../net/tcp_socket.h";
-#include "../errors/errors.h"
+#include "../include/net/tcp_socket.h"
+#include "../include/errors/errors.h"
 
 int main() {
 

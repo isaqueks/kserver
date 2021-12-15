@@ -1,2 +1,2 @@
 #! /bin/bash
-gcc main.c net/tcp_socket.c -o main.out && ./main.out
+gcc main.c $(ls source/*/*.c) -o main.out && ./main.out

@@ -2,8 +2,8 @@
 #include <netdb.h>
 #include <inttypes.h>
 #include <stdlib.h>
-#include "../errors/errors.h"
-#include "tcp_socket.h"
+#include "../../include/errors/errors.h"
+#include "../../include/net/tcp_socket.h"
 
 tcp_socket_t* tcp_socket_create() {
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);

@@ -1,12 +1,15 @@
 #ifndef HTTP_HEADER
 #define HTTP_HEADER
 
+#define MAX_HEADER_NAME_SIZE 128
+#define MAX_HEADER_VALUE_SIZE 1920
+
 typedef struct {
 
-    char name[128];
+    char name[MAX_HEADER_NAME_SIZE];
     // I really think some KBs of memory loss
-    // is better than a lot of memory leaks.
-    char content[2048];
+    // is better than a lot of memory leaks/fragmentation/slowness
+    char content[MAX_HEADER_VALUE_SIZE];
 
 } http_header;
 
@@ -20,7 +23,7 @@ http_header* http_header_create();
 
 /**
  * @brief ! Shouldn't be used in most cases.
- * Frees and allocated http_header.
+ * Frees an allocated http_header.
  * 
  * @param header The header to free
  */
