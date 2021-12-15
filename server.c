@@ -11,6 +11,16 @@
 #include "include/http/start_line.h";
 #include "include/net/tcp_socket.h";
 
+int validate_path(char* path) {
+    if (strstr(path, "..") != NULL) {
+        return 0;
+    }
+    if (strstr(path, "~") != NULL) {
+        return 0;
+    }
+    return 1;
+}
+
 void sendfile(tcp_socket_t* client, char* filename) {
 
     printf("Sending %s\n", filename);
@@ -20,78 +30,95 @@ void sendfile(tcp_socket_t* client, char* filename) {
     char response_head[2048];
     char response_body[BUFF_SIZE];
 
-    char filepath[128];
-    strcpy(filepath, "./static");
-    strcat(filepath, filename);
-    FILE* fp = fopen(filepath, "rb");
+    if (!validate_path(filename)) {
+        printf("Invalid path [%s]\n", filename);
 
-    if (!fp) {
-
-        printf("Not found");
-
-        char* html = "<html><body><h1>404 Not Found</h1></body></html>";
+        char* html = "<html><body><h1>400 Bad request</h1></body></html>";
 
         sprintf(response_head,
-            "HTTP/1.0 404 Not found\r\n"
+            "HTTP/1.0 400 Bad request\r\n"
             "Content-Type: text/html\r\n"
             "Content-Length: %d\r\n\r\n",
         strlen(html));
 
         tcp_socket_write(client, response_head, strlen(response_head));
         tcp_socket_write(client, html, strlen(html));
-
     }
     else {
-        fseek(fp, 0L, SEEK_END);
-        long sz = ftell(fp);
-        fseek(fp, 0L, SEEK_SET);
+        
+        char filepath[128];
+        strcpy(filepath, "./static");
+        strcat(filepath, filename);
+        FILE* fp = fopen(filepath, "rb");
 
-        char ftype[128];
-        if (strstr(filename, ".html")) {
-            strcpy(ftype, "text/html");
-        }
-        else if (strstr(filename, ".css")) {
-            strcpy(ftype, "text/css");
-        }
-        else if (strstr(filename, ".js")) {
-            strcpy(ftype, "application/javascript");
-        }
-        else if (strstr(filename, ".png")) {
-            strcpy(ftype, "image/png");
-        }
-        else if (strstr(filename, ".jpg")) {
-            strcpy(ftype, "image/jpeg");
-        }
-        else if (strstr(filename, ".gif")) {
-            strcpy(ftype, "image/gif");
-        }
-        else if (strstr(filename, ".svg")) {
-            strcpy(ftype, "image/svg+xml");
+        if (!fp) {
+
+            printf("Not found [%s]\n", filepath);
+
+            char* html = "<html><body><h1>404 Not Found</h1></body></html>";
+
+            sprintf(response_head,
+                "HTTP/1.0 404 Not found\r\n"
+                "Content-Type: text/html\r\n"
+                "Content-Length: %d\r\n\r\n",
+            strlen(html));
+
+            tcp_socket_write(client, response_head, strlen(response_head));
+            tcp_socket_write(client, html, strlen(html));
+
         }
         else {
-            strcpy(ftype, "text/plain");
-        }
+            fseek(fp, 0L, SEEK_END);
+            long sz = ftell(fp);
+            fseek(fp, 0L, SEEK_SET);
 
-        sprintf(response_head,
-            "HTTP/1.0 200 OK\r\n"
-            "Content-Type: %s\r\n"
-            "Content-Length: %lu\r\n\r\n",
-        ftype, sz);
+            char ftype[128];
+            if (strstr(filename, ".html")) {
+                strcpy(ftype, "text/html");
+            }
+            else if (strstr(filename, ".css")) {
+                strcpy(ftype, "text/css");
+            }
+            else if (strstr(filename, ".js")) {
+                strcpy(ftype, "application/javascript");
+            }
+            else if (strstr(filename, ".png")) {
+                strcpy(ftype, "image/png");
+            }
+            else if (strstr(filename, ".jpg")) {
+                strcpy(ftype, "image/jpeg");
+            }
+            else if (strstr(filename, ".gif")) {
+                strcpy(ftype, "image/gif");
+            }
+            else if (strstr(filename, ".svg")) {
+                strcpy(ftype, "image/svg+xml");
+            }
+            else {
+                strcpy(ftype, "text/plain");
+            }
 
-        tcp_socket_write(client, response_head, strlen(response_head));
-        int read = 0;
-        while ((read = fread(response_body, 1, BUFF_SIZE, fp)) > 0) {
-            tcp_socket_write(client, response_body, read);
-        }
-        if (read < 0) {
-            perror("fread");
+            sprintf(response_head,
+                "HTTP/1.0 200 OK\r\n"
+                "Content-Type: %s\r\n"
+                "Content-Length: %lu\r\n\r\n",
+            ftype, sz);
+
+            tcp_socket_write(client, response_head, strlen(response_head));
+            int read = 0;
+            while ((read = fread(response_body, 1, BUFF_SIZE, fp)) > 0) {
+                tcp_socket_write(client, response_body, read);
+            }
+            if (read < 0) {
+                perror("fread");
+                fclose(fp);
+                tcp_socket_close(client);
+            }
+
             fclose(fp);
-            tcp_socket_close(client);
         }
-
-        fclose(fp);
-    }
     // tcp_socket_close(client);
+    }
 }
 
 int main(int argc, char* argv[]) {
