@@ -58,7 +58,7 @@ int main() {
 
     char* not_working_start_line_2 = "THISISATOOLONGMETHOD / HTTP/1.1\r\n";
     assert(http_start_line_parse(start_line, not_working_start_line_2, 
-    strlen(not_working_start_line_2)) == STRING_TOO_LONG_ERROR);
+    strlen(not_working_start_line_2)) == BUFFER_TOO_LONG_ERROR);
 
     char* not_working_start_line_3 = "GET  / HTTP/1.1\r\n"; // extra space
     assert(http_start_line_parse(start_line, not_working_start_line_3,

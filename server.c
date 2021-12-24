@@ -161,8 +161,7 @@ int main(int argc, char* argv[]) {
 
 
         int s = 0;
-        if ((s = http_start_line_parse(&start_line, client_buffer, bufsize)) <
-                0) {
+        if ((s = http_start_line_parse(&start_line, client_buffer, bufsize)) < 0) {
             printf("Error parsing start line (%d)\n", s);
             continue;
         }

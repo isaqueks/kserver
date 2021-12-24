@@ -95,7 +95,7 @@ int http_start_line_parse(http_start_line_t* start_line, char* buffer, int buffe
                 return MALFORMED_STRING_ERROR;
             }
             if (target_buffer_index >= MAX_HTTP_METHOD_SIZE - 1) {
-                return STRING_TOO_LONG_ERROR;
+                return BUFFER_TOO_LONG_ERROR;
             }
             start_line->method[target_buffer_index++] = ch;
         }
@@ -104,7 +104,7 @@ int http_start_line_parse(http_start_line_t* start_line, char* buffer, int buffe
                 return MALFORMED_STRING_ERROR;
             }
             if (target_buffer_index >= MAX_HTTP_PATH_SIZE - 1) {
-                return STRING_TOO_LONG_ERROR;
+                return BUFFER_TOO_LONG_ERROR;
             }
             start_line->path[target_buffer_index++] = ch;
         }
@@ -124,7 +124,7 @@ int http_start_line_parse(http_start_line_t* start_line, char* buffer, int buffe
                 return MALFORMED_STRING_ERROR;
             }
             if (target_buffer_index >= MAX_HTTP_VERSION_SIZE - 1) {
-                return STRING_TOO_LONG_ERROR;
+                return BUFFER_TOO_LONG_ERROR;
             }
             start_line->version[target_buffer_index++] = ch;
         }
