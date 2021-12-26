@@ -29,7 +29,7 @@ http_body_t* http_body_create();
  * @param length The buffer length, in bytes
  * @return int The number of bytes written or < 0 if there was an error
  */
-int http_body_set(http_body_t* body, char* data, uint16_t length);
+int http_body_set(http_body_t* body, char* data, uint32_t length);
 
 /**
  * @brief Appends data to the body.
@@ -39,7 +39,7 @@ int http_body_set(http_body_t* body, char* data, uint16_t length);
  * @param length The buffer length
  * @return int The number of bytes appended or < 0 if there was an error
  */
-int http_body_append(http_body_t* body, char* data, uint16_t length);
+int http_body_append(http_body_t* body, char* data, uint32_t length);
 
 /**
  * @brief Should only be used with heap stored http_body.
