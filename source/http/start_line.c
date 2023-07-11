@@ -8,14 +8,18 @@ http_start_line_t* http_start_line_create() {
 
     http_start_line_t* start_line = (http_start_line_t*)malloc(sizeof(http_start_line_t));
     if (start_line == NULL) {
-        return ERROR;
+        return NULL;
     }
 
+    http_start_line_init(start_line);
+
+    return start_line;
+}
+
+void http_start_line_init(http_start_line_t* start_line) {
     memset(start_line->method, 0, MAX_HTTP_METHOD_SIZE);
     memset(start_line->path, 0, MAX_HTTP_PATH_SIZE);
     memset(start_line->version, 0, MAX_HTTP_VERSION_SIZE);
-
-    return start_line;
 }
 
 void http_start_line_free(http_start_line_t* start_line) {

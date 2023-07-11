@@ -2,6 +2,11 @@
     "files.associations": {
         "*.ejs": "html",
         "*.scss": "scss",
-        "errors.h": "c"
-    }
+        "errors.h": "c",
+        "stdbool.h": "c",
+        "header.h": "c",
+        "constants.h": "c",
+        "string.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

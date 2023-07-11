@@ -16,10 +16,18 @@ typedef struct {
 
 /**
  * @brief ! This souldn't be used in most cases as it uses malloc (heap memory)
- * Creates a new http body message in the heap memory.
+ * Creates a new http body message in the heap memory and initializes it.
  * 
  */
 http_body_t* http_body_create();
+
+
+/**
+ * @brief Initializes the body
+ * 
+ * @param body The body to be initialized
+ */
+void http_body_init(http_body_t* body);
 
 /**
  * @brief Sets the whole body data.

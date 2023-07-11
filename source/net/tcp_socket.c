@@ -8,11 +8,11 @@
 tcp_socket_t* tcp_socket_create() {
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
-        return CREATE_SOCKET_ERROR;
+        return NULL;
     }
     tcp_socket_t* sock = malloc(sizeof(tcp_socket_t));
     if (sock == NULL) {
-        return CREATE_SOCKET_ERROR;
+        return NULL;
     }
 
     getsockname(sockfd, (struct sockaddr*)&sock->addr, &sock->addr_len);

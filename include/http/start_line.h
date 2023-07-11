@@ -41,6 +41,13 @@ typedef struct {
 http_start_line_t* http_start_line_create();
 
 /**
+ * @brief Initializes the start line.
+ * 
+ * @param start_line 
+ */
+void http_start_line_init(http_start_line_t* start_line);
+
+/**
  * @brief This shouldn't be used most times.
  * Frees the allocated *http_start_line_t*
  * 

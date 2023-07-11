@@ -7,10 +7,16 @@
 http_body_t* http_body_create() {
     http_body_t* body = (http_body_t*)malloc(sizeof(http_body_t));
     if (body == NULL) {
-        return ERROR;
+        return NULL;
     }
-    body->length = 0;
+    
+    http_body_init(body);
+
     return body;
+}
+
+void http_body_init(http_body_t* body) {
+    body->length = 0;
 }
 
 int http_body_set(http_body_t* body, char* data, uint32_t length) {

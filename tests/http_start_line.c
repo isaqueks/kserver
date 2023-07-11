@@ -14,7 +14,6 @@ int main() {
     http_start_line_t* start_line = http_start_line_create();
 
     assert(start_line != NULL);
-    assert(start_line != ERROR);
 
     assert(strlen(start_line->method) == 0);
     assert(strlen(start_line->version) == 0);
