@@ -1,0 +1,6 @@
+tmp
+.vscode
+main_raw.c
+main_server_raw.c
+main.c
+dns.c
