@@ -18,7 +18,7 @@ http_start_line_t* http_start_line_create() {
 
 void http_start_line_init(http_start_line_t* start_line) {
     memset(start_line->method, 0, MAX_HTTP_METHOD_SIZE);
-    memset(start_line->path, 0, MAX_HTTP_PATH_SIZE);
+    memset(start_line->url, 0, MAX_HTTP_PATH_SIZE);
     memset(start_line->version, 0, MAX_HTTP_VERSION_SIZE);
 }
 
@@ -42,11 +42,11 @@ int http_start_line_set_version(http_start_line_t* start_line, char* version) {
     return 0;
 }
 
-int http_start_line_set_path(http_start_line_t* start_line, char* path) {
-    if (strlen(path) >= MAX_HTTP_PATH_SIZE) {
+int http_start_line_set_path(http_start_line_t* start_line, char* url) {
+    if (strlen(url) >= MAX_HTTP_PATH_SIZE) {
         return ERROR;
     }
-    strcpy(start_line->path, path);
+    strcpy(start_line->url, url);
     return 0;
 }
 
@@ -59,7 +59,7 @@ int http_start_line_parse(http_start_line_t* start_line, char* buffer, int buffe
     }
 
     memset(start_line->method, 0, MAX_HTTP_METHOD_SIZE);
-    memset(start_line->path, 0, MAX_HTTP_PATH_SIZE);
+    memset(start_line->url, 0, MAX_HTTP_PATH_SIZE);
     memset(start_line->version, 0, MAX_HTTP_VERSION_SIZE);
 
     bool reading_method = true;
@@ -80,7 +80,7 @@ int http_start_line_parse(http_start_line_t* start_line, char* buffer, int buffe
                 reading_method = false;
                 reading_path = true;
             } else if (reading_path) {
-                if (strlen(start_line->path) == 0) {
+                if (strlen(start_line->url) == 0) {
                     return MALFORMED_STRING_ERROR;
                 }
                 reading_path = false;
@@ -110,7 +110,7 @@ int http_start_line_parse(http_start_line_t* start_line, char* buffer, int buffe
             if (target_buffer_index >= MAX_HTTP_PATH_SIZE - 1) {
                 return BUFFER_TOO_LONG_ERROR;
             }
-            start_line->path[target_buffer_index++] = ch;
+            start_line->url[target_buffer_index++] = ch;
         }
         else if (reading_version) {
             if (ch == '\r') {

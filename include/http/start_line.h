@@ -28,7 +28,7 @@ typedef struct {
 
     char method[MAX_HTTP_METHOD_SIZE];
     char version[MAX_HTTP_VERSION_SIZE];
-    char path[MAX_HTTP_PATH_SIZE];
+    char url[MAX_HTTP_PATH_SIZE];
 
 } http_start_line_t;
 
@@ -57,7 +57,7 @@ void http_start_line_free(http_start_line_t* start_line);
 
 int http_start_line_set_method(http_start_line_t* start_line, char* method);
 int http_start_line_set_version(http_start_line_t* start_line, char* version);
-int http_start_line_set_path(http_start_line_t* start_line, char* path);
+int http_start_line_set_path(http_start_line_t* start_line, char* url);
 
 /**
  * @brief Parses the start line of an HTTP request from buffer.

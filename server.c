@@ -11,11 +11,11 @@
 #include "include/http/start_line.h";
 #include "include/net/tcp_socket.h";
 
-int validate_path(char* path) {
-    if (strstr(path, "..") != NULL) {
+int validate_path(char* url) {
+    if (strstr(url, "..") != NULL) {
         return 0;
     }
-    if (strstr(path, "~") != NULL) {
+    if (strstr(url, "~") != NULL) {
         return 0;
     }
     return 1;
@@ -31,7 +31,7 @@ void sendfile(tcp_socket_t* client, char* filename) {
     char response_body[BUFF_SIZE];
 
     if (!validate_path(filename)) {
-        printf("Invalid path [%s]\n", filename);
+        printf("Invalid url [%s]\n", filename);
 
         char* html = "<html><body><h1>400 Bad request</h1></body></html>";
 
@@ -171,13 +171,13 @@ int main(int argc, char* argv[]) {
         }
         printf("\n");
 
-        if (strcmp(start_line.path, "/end") == 0) {
+        if (strcmp(start_line.url, "/end") == 0) {
             tcp_socket_close(&client);
             tcp_socket_close(&server);
             return 0;
         }
 
-        sendfile(&client, start_line.path);
+        sendfile(&client, start_line.url);
 
     }
 

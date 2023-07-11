@@ -17,7 +17,7 @@ int main() {
 
     assert(strlen(start_line->method) == 0);
     assert(strlen(start_line->version) == 0);
-    assert(strlen(start_line->path) == 0);
+    assert(strlen(start_line->url) == 0);
 
     assert(http_start_line_set_method(start_line, FAILED_STR) == ERROR);
     assert(strlen(start_line->method) == 0);
@@ -30,25 +30,25 @@ int main() {
     assert(strcmp(start_line->version, "HTTP/1.1") == 0);
 
     assert(http_start_line_set_path(start_line, FAILED_STR) == ERROR);
-    assert(strlen(start_line->path) == 0);
+    assert(strlen(start_line->url) == 0);
     assert(http_start_line_set_path(start_line, "/") == 0);
-    assert(strcmp(start_line->path, "/") == 0);
+    assert(strcmp(start_line->url, "/") == 0);
 
     char *working_start_line_1 = "GET / HTTP/1.1\r\n";
     int result = http_start_line_parse(start_line, working_start_line_1, strlen(working_start_line_1));
     assert(result == strlen(working_start_line_1));
 
     assert(strcmp(start_line->method, "GET") == 0);
-    assert(strcmp(start_line->path, "/") == 0);
+    assert(strcmp(start_line->url, "/") == 0);
     assert(strcmp(start_line->version, "HTTP/1.1") == 0);
 
-    char *working_start_line_2 = "POST /url/to/path HTTP/1.0\r\n";
+    char *working_start_line_2 = "POST /url/to/url HTTP/1.0\r\n";
 
     result = http_start_line_parse(start_line, working_start_line_2, strlen(working_start_line_2));
     assert(result == strlen(working_start_line_2));
 
     assert(strcmp(start_line->method, "POST") == 0);
-    assert(strcmp(start_line->path, "/url/to/path") == 0);
+    assert(strcmp(start_line->url, "/url/to/url") == 0);
     assert(strcmp(start_line->version, "HTTP/1.0") == 0);
 
     char* not_working_start_line_1 = "GET / HTTP/1.1"; // no CRLF
@@ -76,7 +76,7 @@ int main() {
     strlen(working_with_extra_content)) == 27);
 
     assert(strcmp(start_line->method, "HEAD") == 0);
-    assert(strcmp(start_line->path, "/index.html") == 0);
+    assert(strcmp(start_line->url, "/index.html") == 0);
     assert(strcmp(start_line->version, "HTTP/1.1") == 0);
 
     return 0;
