@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "../../include/errors/errors.h"
 #include "../../include/http/body.h"
+#include "../../include/net/tcp_socket.h"
 
 http_body_t* http_body_create() {
     http_body_t* body = (http_body_t*)malloc(sizeof(http_body_t));
@@ -33,6 +34,15 @@ int http_body_append(http_body_t* body, char* data, uint32_t length) {
     }
     memcpy(&body->data[body->length], data, length);
     return length;
+}
+
+int http_body_flush(http_body_t* body, tcp_socket_t* socket) {
+    tcp_socket_write(socket, body->data, body->length);
+    
+    int wrote = body->length;
+    body->length = 0;
+
+    return wrote;
 }
 
 void http_body_free(http_body_t* body) {

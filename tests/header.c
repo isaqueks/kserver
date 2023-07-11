@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "../include/http/header.h"
 #include "../include/errors/errors.h"
 

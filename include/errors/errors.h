@@ -1,5 +1,4 @@
 #ifndef ERROR
-#define ERROR
 
 #define ERROR -1
 #define CREATE_SOCKET_ERROR -2

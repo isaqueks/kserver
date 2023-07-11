@@ -2,11 +2,12 @@
     "files.associations": {
         "*.ejs": "html",
         "*.scss": "scss",
-        "errors.h": "c",
-        "stdbool.h": "c",
+        "body.h": "c",
         "header.h": "c",
-        "constants.h": "c",
-        "string.h": "c"
-    },
-    "C_Cpp.errorSquiggles": "disabled"
+        "start_line.h": "c",
+        "tcp_socket.h": "c",
+        "assert.h": "c",
+        "message.h": "c",
+        "errors.h": "c"
+    }
 }

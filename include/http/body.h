@@ -2,9 +2,11 @@
 #define BODY 1
 #include <inttypes.h>
 
+#include "../net/tcp_socket.h"
+
 #ifndef MAX_HTTP_BODY_SIZE
-#define MAX_HTTP_BODY_SIZE 2044
-// 2044 + uint32_t = 2048 bytes
+#define MAX_HTTP_BODY_SIZE 2048 - sizeof(uint32_t)
+
 #endif
 
 typedef struct {
@@ -48,6 +50,16 @@ int http_body_set(http_body_t* body, char* data, uint32_t length);
  * @return int The number of bytes appended or < 0 if there was an error
  */
 int http_body_append(http_body_t* body, char* data, uint32_t length);
+
+
+/**
+ * @brief Writes the body to the socket.
+ * 
+ * @param body 
+ * @param socket 
+ * @return int The number of bytes written or < 0 if there was an error
+ */
+int http_body_flush(http_body_t* body, tcp_socket_t* socket);
 
 /**
  * @brief Should only be used with heap stored http_body.
