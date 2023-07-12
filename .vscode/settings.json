@@ -8,6 +8,7 @@
         "tcp_socket.h": "c",
         "assert.h": "c",
         "message.h": "c",
-        "errors.h": "c"
+        "errors.h": "c",
+        "url.h": "c"
     }
 }

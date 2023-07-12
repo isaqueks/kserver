@@ -58,9 +58,7 @@ int http_start_line_parse(http_start_line_t* start_line, char* buffer, int buffe
         return INCOMPLETE_STRING_ERROR;
     }
 
-    memset(start_line->method, 0, MAX_HTTP_METHOD_SIZE);
-    memset(start_line->url, 0, MAX_HTTP_PATH_SIZE);
-    memset(start_line->version, 0, MAX_HTTP_VERSION_SIZE);
+    http_start_line_init(start_line);
 
     bool reading_method = true;
     bool reading_path = false;
