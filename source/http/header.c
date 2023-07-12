@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "../../include/http/header.h"
 #include "../../include/constants/constants.h"
@@ -159,4 +160,18 @@ int http_header_parse(http_header_t* header, char* line) {
 
     return 0;
 
+}
+
+int http_header_output(http_header_t* header, char* out, int buf_size) {
+    char* name = http_header_get_name(header);
+    char* content = http_header_get_content(header);
+
+    int name_len = strlen(name);
+    int content_len = strlen(content);
+
+    if (name_len + 2 /* ": " */ + content_len + 3 /* "\r\n\0 " */ > buf_size) {
+        return BUFFER_TOO_LONG_ERROR;
+    }
+
+    return sprintf(out, "%s: %s\r\n", name, content);
 }

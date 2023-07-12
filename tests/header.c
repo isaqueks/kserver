@@ -5,6 +5,8 @@
 #include "../include/http/header.h"
 #include "../include/errors/errors.h"
 
+#define BUF_SIZE 1024
+
 int main() {
 
     http_header_t* header = http_header_create();
@@ -57,9 +59,17 @@ int main() {
     assert(strcmp(http_header_get_name(header), "user-agent") == 0);
     assert(strcmp(http_header_get_content(header), "test-ua") == 0);
 
-    assert(http_header_parse(header, "Corect-Long-Header: Correct and long value\r\n") == 0);
+    assert(http_header_parse(header, "Correct-Long-Header: Correct and long value\r\n") == 0);
 
-    assert(strcmp(http_header_get_name(header), "corect-long-header") == 0);
+    assert(strcmp(http_header_get_name(header), "correct-long-header") == 0);
     assert(strcmp(http_header_get_content(header), "Correct and long value") == 0);
+
+    char buf[BUF_SIZE];
+    memset(buf, 0, BUF_SIZE);
+
+    assert(http_header_parse(header, "Test-Header:          A test value\r\n") == 0);
+
+    assert(http_header_output(header, buf, BUF_SIZE) > 0);
+    assert(strcmp(buf, "test-header: A test value\r\n") == 0);
 
 }

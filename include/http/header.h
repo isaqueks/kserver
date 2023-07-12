@@ -41,4 +41,6 @@ char* http_header_get_content(http_header_t* header);
 
 int http_header_parse(http_header_t* header, char* line);
 
+int http_header_output(http_header_t* header, char* out, int buf_size);
+
 #endif
