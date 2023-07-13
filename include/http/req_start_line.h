@@ -1,17 +1,7 @@
 #ifndef START_LINE
 #define START_LINE 1
 
-#ifndef MAX_HTTP_PATH_SIZE
-#define MAX_HTTP_PATH_SIZE 512
-#endif
-
-#ifndef MAX_HTTP_VERSION_SIZE
-#define MAX_HTTP_VERSION_SIZE 10
-#endif
-
-#ifndef MAX_HTTP_METHOD_SIZE
-#define MAX_HTTP_METHOD_SIZE 8
-#endif
+#include "../constants/constants.h"
 
 /*
 

@@ -2,7 +2,6 @@
 #define HTTP_MESSAGE 1
 
 #include <stdbool.h>
-#include "start_line.h"
 #include "header.h"
 #include "body.h"
 

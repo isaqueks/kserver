@@ -5,7 +5,6 @@
 #include <stdio.h>
 
 #include "../../include/errors/errors.h"
-#include "../../include/http/start_line.h"
 #include "../../include/http/header.h"
 #include "../../include/http/body.h"
 #include "../../include/http/message.h"
