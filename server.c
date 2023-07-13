@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
     }
 
     char client_buffer[2048];
-    http_start_line_t start_line;
+    http_request_start_line_t start_line;
 
     while (1) {
         tcp_socket_t client;
@@ -161,7 +161,7 @@ int main(int argc, char* argv[]) {
 
 
         int s = 0;
-        if ((s = http_start_line_parse(&start_line, client_buffer, bufsize)) < 0) {
+        if ((s = http_req_start_line_parse(&start_line, client_buffer, bufsize)) < 0) {
             printf("Error parsing start line (%d)\n", s);
             continue;
         }

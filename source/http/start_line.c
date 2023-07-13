@@ -4,29 +4,29 @@
 #include "../../include/errors/errors.h"
 #include "../../include/http/start_line.h"
 
-http_start_line_t* http_start_line_create() {
+http_request_start_line_t* http_req_start_line_create() {
 
-    http_start_line_t* start_line = (http_start_line_t*)malloc(sizeof(http_start_line_t));
+    http_request_start_line_t* start_line = (http_request_start_line_t*)malloc(sizeof(http_request_start_line_t));
     if (start_line == NULL) {
         return NULL;
     }
 
-    http_start_line_init(start_line);
+    http_req_start_line_init(start_line);
 
     return start_line;
 }
 
-void http_start_line_init(http_start_line_t* start_line) {
+void http_req_start_line_init(http_request_start_line_t* start_line) {
     memset(start_line->method, 0, MAX_HTTP_METHOD_SIZE);
     memset(start_line->url, 0, MAX_HTTP_PATH_SIZE);
     memset(start_line->version, 0, MAX_HTTP_VERSION_SIZE);
 }
 
-void http_start_line_free(http_start_line_t* start_line) {
+void http_req_start_line_free(http_request_start_line_t* start_line) {
     free(start_line);
 }
 
-int http_start_line_set_method(http_start_line_t* start_line, char* method) {
+int http_req_start_line_set_method(http_request_start_line_t* start_line, char* method) {
     if (strlen(method) >= MAX_HTTP_METHOD_SIZE) {
         return ERROR;
     }
@@ -34,7 +34,7 @@ int http_start_line_set_method(http_start_line_t* start_line, char* method) {
     return 0;
 }
 
-int http_start_line_set_version(http_start_line_t* start_line, char* version) {
+int http_req_start_line_set_version(http_request_start_line_t* start_line, char* version) {
     if (strlen(version) >= MAX_HTTP_VERSION_SIZE) {
         return ERROR;
     }
@@ -42,7 +42,7 @@ int http_start_line_set_version(http_start_line_t* start_line, char* version) {
     return 0;
 }
 
-int http_start_line_set_path(http_start_line_t* start_line, char* url) {
+int http_req_start_line_set_path(http_request_start_line_t* start_line, char* url) {
     if (strlen(url) >= MAX_HTTP_PATH_SIZE) {
         return ERROR;
     }
@@ -50,7 +50,7 @@ int http_start_line_set_path(http_start_line_t* start_line, char* url) {
     return 0;
 }
 
-int http_start_line_parse(http_start_line_t* start_line, char* buffer, int buffer_size) {
+int http_req_start_line_parse(http_request_start_line_t* start_line, char* buffer, int buffer_size) {
     
     // GET / HTTP/1.1
     // A * HTTP/X.Y\r\n -> 14 min length
@@ -58,7 +58,7 @@ int http_start_line_parse(http_start_line_t* start_line, char* buffer, int buffe
         return INCOMPLETE_STRING_ERROR;
     }
 
-    http_start_line_init(start_line);
+    http_req_start_line_init(start_line);
 
     bool reading_method = true;
     bool reading_path = false;

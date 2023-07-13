@@ -10,7 +10,6 @@
 
 typedef struct {
 
-    http_start_line_t start_line;
     http_header_t header[HTTP_MESSAGE_HEADERS];
     http_body_t body;
 
@@ -32,15 +31,6 @@ http_message_t* http_message_create();
  */
 void http_message_init(http_message_t* message);
 
-
-// /**
-//  * @brief Sets the start line of the message
-//  * 
-//  * @param message 
-//  * @param start_line 
-//  * @return int 0 if success, < 0 if error
-//  */
-// int http_message_set_start_line(http_message_t* message, http_start_line_t* start_line);
 
 
 /**

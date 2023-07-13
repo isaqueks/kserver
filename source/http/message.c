@@ -24,7 +24,6 @@ http_message_t* http_message_create() {
 
 
 void http_message_init(http_message_t* message) {
-    http_start_line_init(&message->start_line);
     for (int i = 0; i < HTTP_MESSAGE_HEADERS; i++) {
         http_header_init(&message->header[i]);
     }

@@ -30,7 +30,7 @@ typedef struct {
     char version[MAX_HTTP_VERSION_SIZE];
     char url[MAX_HTTP_PATH_SIZE];
 
-} http_start_line_t;
+} http_request_start_line_t;
 
 /**
  * @brief ! This shouldn't be used in most cases,
@@ -38,26 +38,26 @@ typedef struct {
  * you already have a buffer to work with.
  * Only use it when you really need.
  */
-http_start_line_t* http_start_line_create();
+http_request_start_line_t* http_req_start_line_create();
 
 /**
  * @brief Initializes the start line.
  * 
  * @param start_line 
  */
-void http_start_line_init(http_start_line_t* start_line);
+void http_req_start_line_init(http_request_start_line_t* start_line);
 
 /**
  * @brief This shouldn't be used most times.
- * Frees the allocated *http_start_line_t*
+ * Frees the allocated *http_request_start_line_t*
  * 
  * @param start_line 
  */
-void http_start_line_free(http_start_line_t* start_line);
+void http_req_start_line_free(http_request_start_line_t* start_line);
 
-int http_start_line_set_method(http_start_line_t* start_line, char* method);
-int http_start_line_set_version(http_start_line_t* start_line, char* version);
-int http_start_line_set_path(http_start_line_t* start_line, char* url);
+int http_req_start_line_set_method(http_request_start_line_t* start_line, char* method);
+int http_req_start_line_set_version(http_request_start_line_t* start_line, char* version);
+int http_req_start_line_set_path(http_request_start_line_t* start_line, char* url);
 
 /**
  * @brief Parses the start line of an HTTP request from buffer.
@@ -67,6 +67,6 @@ int http_start_line_set_path(http_start_line_t* start_line, char* url);
  * @param buffer The stat line string
  * @return int The number of bytes read or < 0 if there was an error
  */
-int http_start_line_parse(http_start_line_t* start_line, char* buffer, int buffer_size);
+int http_req_start_line_parse(http_request_start_line_t* start_line, char* buffer, int buffer_size);
 
 #endif
