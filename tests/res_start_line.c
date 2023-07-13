@@ -13,6 +13,7 @@ int main() {
 
     assert(http_res_start_line_set_version(start_line, "SHIT") == MALFORMED_STRING_ERROR);
     assert(http_res_start_line_set_version(start_line, "HTTP&1.1") == MALFORMED_STRING_ERROR);
+    assert(http_res_start_line_set_version(start_line, "HTTP/999.666") == BUFFER_TOO_LONG_ERROR);
     assert(http_res_start_line_set_version(start_line, "HTTP/1.1") >= 0);
     assert(http_res_start_line_set_version(start_line, "HTTP/1.0") >= 0);
     assert(strcmp(start_line->version, "HTTP/1.0") == 0);

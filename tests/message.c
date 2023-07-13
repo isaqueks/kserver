@@ -6,7 +6,6 @@
 #include "../include/errors/errors.h"
 #include "../include/http/header.h"
 #include "../include/http/message.h"
-#include "../include/http/start_line.h"
 #include "../include/http/body.h"
 #include "../include/net/tcp_socket.h"
 
