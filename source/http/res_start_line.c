@@ -62,5 +62,6 @@ int http_res_start_line_output(http_response_start_line_t* start_line, char* buf
 
     // sprintf always add a null byte at the end
 
-    return sprintf(buffer, "%s %d %s\r\n", start_line->version, start_line->status_code, start_line->status_message);
+    sprintf(buffer, "%s %d %s\r\n", start_line->version, start_line->status_code, start_line->status_message);
+    return total_len;
 }

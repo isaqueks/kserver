@@ -33,6 +33,7 @@ int http_body_append(http_body_t* body, char* data, uint32_t length) {
         return BUFFER_TOO_LONG_ERROR;
     }
     memcpy(&body->data[body->length], data, length);
+    body->length += length;
     return length;
 }
 

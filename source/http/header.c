@@ -87,7 +87,8 @@ int http_header_parse(http_header_t* header, char* line) {
     int content_start = 0;
     int content_len = 0;
 
-    for (int i = 0; true; i++) {
+    int i = 0;
+    for (; true; i++) {
         char ch = line[i];
 
         if (ch == '\0') {
@@ -98,7 +99,8 @@ int http_header_parse(http_header_t* header, char* line) {
             if (line[i + 1] == LF) {
                 if (parsing_name) {
                     return INCOMPLETE_STRING_ERROR;
-                } 
+                }
+                i++;
                 break;
             } 
             return INCOMPLETE_STRING_ERROR;
@@ -158,7 +160,7 @@ int http_header_parse(http_header_t* header, char* line) {
         return err;
     }
 
-    return 0;
+    return i+1;
 
 }
 

@@ -13,6 +13,11 @@ typedef struct {
 
 } http_request_t;
 
+// Maybe these getter methods can be replaced by macros later
+// as they are only "return &shit->stuff"
+// so a macro won't spam the call stack
+// macro would be like #define shit_get_stuff (&shit->stuff)
+
 http_request_t* http_request_create();
 
 void http_request_init(http_request_t* request);

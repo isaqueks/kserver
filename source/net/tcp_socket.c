@@ -2,6 +2,7 @@
 #include <netdb.h>
 #include <inttypes.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "../../include/errors/errors.h"
 #include "../../include/net/tcp_socket.h"
 
@@ -43,7 +44,7 @@ int tcp_socket_write(tcp_socket_t* sock, char* data, int len) {
 }
 
 int tcp_socket_read(tcp_socket_t* sock, char* data, int len) {
-    return read(sock->fd, data, len);
+    return (int)read(sock->fd, data, len);
 }
 
 

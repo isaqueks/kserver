@@ -1,0 +1,106 @@
+POST http://localhost:8881/hello-world HTTP/1.1
+User-Agent: test
+
+char* valid_headers[] = {
+    "content-length",
+    "content-type",
+    "user-agent"
+};
+
+char* error_page = "<html><body><h1>Internal Server Error</h1></body></html>";
+
+int main(int argc, char* argv[]) {
+    tcp_socket_t* server = tcp_socket_create();
+    if (server < 0) {
+        printf("Error creating socket\n");
+        return 1;
+    }
+
+    int port = 8880;
+
+    while (port < 9000 && tcp_socket_bind_address(server, INADDR_ANY, port) < 0) {
+        printf("Error binding socket\n");
+        port++;
+    }
+
+    if (tcp_socket_listen(server, 100) < 0) {
+        printf("Error listening\n");
+        return 1;
+    }
+
+    printf("Listening on port %d\n", port);
+
+    while (1) {
+        tcp_socket_t client;
+        if (tcp_socket_accept(server, &client) < 0) {
+            printf("Error handling client\n");
+            perror("");
+            continue;
+        }
+        
+        http_request_t request;
+        http_request_init(&request);
+
+        http_response_t response;
+        http_response_init(&response);
+
+        http_parsing_status status = HTTP_PARSING_LINE;
+
+        int ret = 0;
+
+        if ((ret = http_parse_all(&request, &client, &status, valid_headers, 3)) < 0) {
+            printf("Error parsing request (%d) (%d)\n", ret, status);
+
+            http_response_write_head(&response, &client, 500, "Internal Server Error");
+            http_response_write_body(&response, error_page, strlen(error_page));
+            http_response_body_flush(&response, &client);
+
+            tcp_socket_close(&client);
+        }
+        else {
+            printf("%s %s %s\n", request.start_line.method, request.start_line.url, request.start_line.version);
+            printf("Content-Length: %s\n", http_request_get_header_content(&request, "content-length"));
+
+            int ret = 0;
+
+            http_response_set_header(&response, "Content-Type", "text/html");
+
+            http_response_write_head(&response, &client, 200, "OK");
+
+            #define PAGE_SIZE 4096
+
+            char page[PAGE_SIZE];
+
+            sprintf(page, 
+                "<html>"
+                    "<head>"
+                        "<title>Test</title>"
+                    "</head>"
+                    "<body>"
+                        "<h1>Test</h1>"
+                        "<p>Method: %s</p>"
+                        "<p>URL: %s</p>"
+                        "<p>UA: %s</p>"
+                        "<hr />"
+                        "Body:<br /><pre>%s</pre>"
+                    "</body>"
+                "</html>",
+                request.start_line.method,
+                request.start_line.url,
+                http_request_get_header_content(&request, "user-agent"),
+                http_request_get_body(&request)->data
+            );
+
+            http_response_write_body(&response, page, strlen(page));
+            http_response_body_flush(&response, &client);
+
+            tcp_socket_close(&client);
+
+        }
+
+        fflush(stdout);
+
+    }
+
+    return 0;
+}

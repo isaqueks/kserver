@@ -14,7 +14,7 @@ http_request_t* http_request_create() {
 }
 
 void http_request_init(http_request_t* request) {
-    http_request_start_line_init(&request->start_line);
+    http_req_start_line_init(&request->start_line);
     http_message_init(&request->message);
 }
 
